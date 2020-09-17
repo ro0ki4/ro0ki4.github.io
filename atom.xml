@@ -2,13 +2,38 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ro0ki4.github.io</id>
     <title>Gridea</title>
-    <updated>2020-09-17T16:16:32.776Z</updated>
+    <updated>2020-09-17T16:58:25.157Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ro0ki4.github.io"/>
     <link rel="self" href="https://ro0ki4.github.io/atom.xml"/>
     <logo>https://ro0ki4.github.io/images/avatar.png</logo>
     <icon>https://ro0ki4.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[动态规划]]></title>
+        <id>https://ro0ki4.github.io/post/dong-tai-gui-hua/</id>
+        <link href="https://ro0ki4.github.io/post/dong-tai-gui-hua/">
+        </link>
+        <updated>2020-09-17T16:58:00.000Z</updated>
+        <content type="html"><![CDATA[<ul>
+<li>我对动态规划的理解
+<ul>
+<li>最典型无非具有相同子问题的特性，当然这样使用递归也十分容易解决，但是动态规划实现了中间状态的存储</li>
+<li>在了解到某一题目可以使用动态规划解决这个信息之后，我们只需要顺着动态规划的思路&gt;&gt;寻找和题目解相关的变量，用这些相关变量构造出题目某一个阶段的状态，一般我们同时也会存储这个状态下的解。下一步就是寻找出下一个状态和当前已经存储的状态之间的关系，这一步也是重中之重，然而，如果在寻找和题目解相关变量的时候就出现了错误，那么这一步几乎无法进行下去，其实，如果相关变量寻找的好，状态转移方程几乎是显然的。</li>
+<li>上面介绍的动态规划针对的是逻辑上遵循我们所熟悉的从小到大的原则，也就是说在逻辑层面下个状态和之前的 <strong>[某些 | 全部]<strong>某些状态是有着直接联系的，这种情况的题目一般边界情况也是可以符合我们对于</strong>小</strong>的认识。部分题目边界的小在没有经过逻辑映射下是离散的，不是连续的，此类一般都是下一个状态和后面可能出现的各种状态有关，针对此类问题，可以通过类似后序遍历转化未逻辑上符合连贯的从小到大。</li>
+</ul>
+</li>
+</ul>
+<h2 id="背包问题">背包问题</h2>
+<ul>
+<li>01背包</li>
+<li>完全背包</li>
+<li>.....</li>
+<li>只需要关注某件物品我们对于它的处理，是不取，还是取一件，两件....</li>
+</ul>
+<h2 id=""></h2>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[三大排序]]></title>
         <id>https://ro0ki4.github.io/post/san-da-pai-xu/</id>
