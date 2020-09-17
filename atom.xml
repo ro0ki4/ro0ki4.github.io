@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ro0ki4.github.io</id>
     <title>Gridea</title>
-    <updated>2020-09-11T16:04:10.777Z</updated>
+    <updated>2020-09-17T15:54:40.387Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ro0ki4.github.io"/>
     <link rel="self" href="https://ro0ki4.github.io/atom.xml"/>
@@ -10,20 +10,134 @@
     <icon>https://ro0ki4.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
     <entry>
-        <title type="html"><![CDATA[fewaf sda ]]></title>
-        <id>https://ro0ki4.github.io/post/test/</id>
-        <link href="https://ro0ki4.github.io/post/test/">
+        <title type="html"><![CDATA[三大排序]]></title>
+        <id>https://ro0ki4.github.io/post/san-da-pai-xu/</id>
+        <link href="https://ro0ki4.github.io/post/san-da-pai-xu/">
         </link>
-        <updated>2020-08-14T13:44:19.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="test">test</h1>
-<h2 id="test1">test1</h2>
+        <updated>2020-09-17T14:44:56.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-快速排序">1.  快速排序</h2>
 <ul>
-<li>发动机撒了附件附近的萨拉</li>
-<li>发动机阿三了房间<br>
-fdsafasdf fdsaf asdf fdsa<br>
-fdsafasd asd<br>
-fsdafasdf</li>
+<li>主要就在于理解为什么内层循环是从右边开始以及内层循环判断条件<strong>nums[right] &gt;= flag</strong>中的**=**，它导致了快排不稳定</li>
 </ul>
+<pre><code class="language-java">void sort(int[] nums, int l , int r){
+    //一律采用左闭右闭
+    if(i &gt;= j)
+        return;
+   	int left = l;
+    int right = r;
+    int flag = nums[left];
+    while(left &lt; right){
+        while(left&lt;right &amp;&amp; nums[right] &gt;= flag){
+            right--;
+        }
+        while(left&lt;right &amp;&amp; nums[left] &lt;= flag){
+            left++;
+        }
+        if(left&lt;right){
+            int tem = nums[left];
+            nums[left] = nums[right];
+            nums[right] = tem;
+        }
+    }
+    nums[l] = nums[left];
+    nums[left] = flag;
+    sort(nums,l,left-1);
+    sort(nums,left+1,r);
+}
+</code></pre>
+<h2 id="归并排序">归并排序</h2>
+<ul>
+<li>重点理解归并排序的自底向上的思想</li>
+</ul>
+<pre><code class="language-java">void sort(int[] nums, int l, int r){
+    if(l &gt;= r)
+        return;
+   	int mid = (l+r)&gt;&gt;1;
+    sort(nums,l,mid);
+    sort(nusm,mid+1,r);
+    merge(nums,l,r);
+}
+
+void merge(int[] nums, int l, int r){
+    int mid = (l+r)&gt;&gt;1;
+    int[] arrayLeft = new int[mid-l+1];
+    int[] arrayRight = new int[r-mid+1];
+    
+    System.arraycopy(nums,l,arrayLeft,0,mid-l+1);
+    System.arraycopy(nums,mid+1,arrayRight,0,r-mid);
+    
+    int left = 0;
+    int right = 0;
+    
+    int index = l;
+    
+    while(left &lt; arrayLeft.length &amp;&amp; right &lt; arrayRight.length){
+        int val1 = arrayLeft[left];
+        int val2 = arrayRight[right];
+        if(val1 &gt; val2){
+            nums[index++] = val1;
+            left++;
+        }else{
+            nums[index++] = val2;
+            right++;
+        }
+    }
+    if(left &gt;= arrayLeft.length){
+        for(int i = index; i &lt;= r; i++){
+        	nums[index] = arrayRight[right++];
+    	}
+    }else{
+        for(int i = index; i &lt;= r; i++){
+            nums[index] = arrayLeft[left++];
+        }
+    }
+}
+</code></pre>
+<h2 id="堆排序">堆排序</h2>
+<ul>
+<li>它和快排的区别在于它是稳定的排序，也是三个排序中相对复杂的一种</li>
+<li>parent[i] --&gt; 2i + 1, 2i + 2</li>
+<li>son[i]  --&gt; (i-1)/2</li>
+</ul>
+<pre><code class="language-java">void adjustHeap(int[] nums, int index, int length){
+    //重点关注length代表的意义
+    int val = nums[index];
+    for(int i = index*2+1; i &lt; length; i = i*2+1){
+        if(i+1 &lt; length &amp;&amp; nums[i] &lt; nums[i+1]){
+            i++;
+        }
+        if(val &lt; arr[i]){
+            nums[index] = arr[i];
+            index = i;
+        }else{
+            break;
+        }
+    }
+    nums[i] = val;
+}
+
+void initHeap(int[] nums){
+    int len = nums.length;
+    for(int i = (len-2)/2; i &gt;= 0; i--){
+        adjustHeap(nums,i,len);
+    }
+}
+
+void swap(int[] nums, int i, int j){
+    int tem = nums[i];
+    nums[i] = nums[j];
+    nums[j] = tem;
+}
+
+void sort(int[] nums){
+    initHeap(nums);
+    int len = nums.length;
+    for(int i = 0; i &lt; len; i++){
+        swap(nums,i,len-1-i);
+        adjustHeap(nums,0,len-1);
+    }
+}
+</code></pre>
 ]]></content>
     </entry>
     <entry>

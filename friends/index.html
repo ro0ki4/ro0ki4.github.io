@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>Gridea</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1599840219742">
+<link rel="shortcut icon" href="/favicon.ico?v=1600358064169">
 <link rel="stylesheet" href="/styles/main.css">
 <link rel="stylesheet" href="/media/css/mist.css">
 
@@ -527,17 +527,131 @@
     <div class="result">
       
       <div class="item">
-        <a class="result-title" href="https://ro0ki4.github.io/post/test/"" data-c="
-          &lt;h1 id=&#34;test&#34;&gt;test&lt;/h1&gt;
-&lt;h2 id=&#34;test1&#34;&gt;test1&lt;/h2&gt;
+        <a class="result-title" href="https://ro0ki4.github.io/post/san-da-pai-xu/"" data-c="
+          &lt;h2 id=&#34;1-快速排序&#34;&gt;1.  快速排序&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;发动机撒了附件附近的萨拉&lt;/li&gt;
-&lt;li&gt;发动机阿三了房间&lt;br&gt;
-fdsafasdf fdsaf asdf fdsa&lt;br&gt;
-fdsafasd asd&lt;br&gt;
-fsdafasdf&lt;/li&gt;
+&lt;li&gt;主要就在于理解为什么内层循环是从右边开始以及内层循环判断条件&lt;strong&gt;nums[right] &amp;gt;= flag&lt;/strong&gt;中的**=**，它导致了快排不稳定&lt;/li&gt;
 &lt;/ul&gt;
-">fewaf sda </a>
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;void sort(int[] nums, int l , int r){
+    //一律采用左闭右闭
+    if(i &amp;gt;= j)
+        return;
+   	int left = l;
+    int right = r;
+    int flag = nums[left];
+    while(left &amp;lt; right){
+        while(left&amp;lt;right &amp;amp;&amp;amp; nums[right] &amp;gt;= flag){
+            right--;
+        }
+        while(left&amp;lt;right &amp;amp;&amp;amp; nums[left] &amp;lt;= flag){
+            left++;
+        }
+        if(left&amp;lt;right){
+            int tem = nums[left];
+            nums[left] = nums[right];
+            nums[right] = tem;
+        }
+    }
+    nums[l] = nums[left];
+    nums[left] = flag;
+    sort(nums,l,left-1);
+    sort(nums,left+1,r);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;归并排序&#34;&gt;归并排序&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;重点理解归并排序的自底向上的思想&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;void sort(int[] nums, int l, int r){
+    if(l &amp;gt;= r)
+        return;
+   	int mid = (l+r)&amp;gt;&amp;gt;1;
+    sort(nums,l,mid);
+    sort(nusm,mid+1,r);
+    merge(nums,l,r);
+}
+
+void merge(int[] nums, int l, int r){
+    int mid = (l+r)&amp;gt;&amp;gt;1;
+    int[] arrayLeft = new int[mid-l+1];
+    int[] arrayRight = new int[r-mid+1];
+    
+    System.arraycopy(nums,l,arrayLeft,0,mid-l+1);
+    System.arraycopy(nums,mid+1,arrayRight,0,r-mid);
+    
+    int left = 0;
+    int right = 0;
+    
+    int index = l;
+    
+    while(left &amp;lt; arrayLeft.length &amp;amp;&amp;amp; right &amp;lt; arrayRight.length){
+        int val1 = arrayLeft[left];
+        int val2 = arrayRight[right];
+        if(val1 &amp;gt; val2){
+            nums[index++] = val1;
+            left++;
+        }else{
+            nums[index++] = val2;
+            right++;
+        }
+    }
+    if(left &amp;gt;= arrayLeft.length){
+        for(int i = index; i &amp;lt;= r; i++){
+        	nums[index] = arrayRight[right++];
+    	}
+    }else{
+        for(int i = index; i &amp;lt;= r; i++){
+            nums[index] = arrayLeft[left++];
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;堆排序&#34;&gt;堆排序&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;它和快排的区别在于它是稳定的排序，也是三个排序中相对复杂的一种&lt;/li&gt;
+&lt;li&gt;parent[i] --&amp;gt; 2i + 1, 2i + 2&lt;/li&gt;
+&lt;li&gt;son[i]  --&amp;gt; (i-1)/2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;void adjustHeap(int[] nums, int index, int length){
+    //重点关注length代表的意义
+    int val = nums[index];
+    for(int i = index*2+1; i &amp;lt; length; i = i*2+1){
+        if(i+1 &amp;lt; length &amp;amp;&amp;amp; nums[i] &amp;lt; nums[i+1]){
+            i++;
+        }
+        if(val &amp;lt; arr[i]){
+            nums[index] = arr[i];
+            index = i;
+        }else{
+            break;
+        }
+    }
+    nums[i] = val;
+}
+
+void initHeap(int[] nums){
+    int len = nums.length;
+    for(int i = (len-2)/2; i &amp;gt;= 0; i--){
+        adjustHeap(nums,i,len);
+    }
+}
+
+void swap(int[] nums, int i, int j){
+    int tem = nums[i];
+    nums[i] = nums[j];
+    nums[j] = tem;
+}
+
+void sort(int[] nums){
+    initHeap(nums);
+    int len = nums.length;
+    for(int i = 0; i &amp;lt; len; i++){
+        swap(nums,i,len-1-i);
+        adjustHeap(nums,0,len-1);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+">三大排序</a>
       </div>
       
       <div class="item">
@@ -582,7 +696,7 @@ fsdafasdf&lt;/li&gt;
   </div>
 </div>
 <script>
-  // var escape = "[{&#34;content&#34;:&#34;&lt;h1 id=\&#34;test\&#34;&gt;test&lt;/h1&gt;\n&lt;h2 id=\&#34;test1\&#34;&gt;test1&lt;/h2&gt;\n&lt;ul&gt;\n&lt;li&gt;发动机撒了附件附近的萨拉&lt;/li&gt;\n&lt;li&gt;发动机阿三了房间&lt;br&gt;\nfdsafasdf fdsaf asdf fdsa&lt;br&gt;\nfdsafasd asd&lt;br&gt;\nfsdafasdf&lt;/li&gt;\n&lt;/ul&gt;\n&#34;,&#34;fileName&#34;:&#34;test&#34;,&#34;abstract&#34;:&#34;&#34;,&#34;title&#34;:&#34;fewaf sda &#34;,&#34;tags&#34;:[],&#34;date&#34;:&#34;2020-08-14 21:44:19&#34;,&#34;dateFormat&#34;:&#34;2020-08-14&#34;,&#34;feature&#34;:&#34;https://J2is18cm.github.io/test&#34;,&#34;link&#34;:&#34;https://ro0ki4.github.io/post/test/&#34;,&#34;hideInList&#34;:false,&#34;isTop&#34;:false,&#34;stats&#34;:{&#34;text&#34;:&#34;1 min read&#34;,&#34;time&#34;:7000,&#34;words&#34;:29,&#34;minutes&#34;:1},&#34;description&#34;:&#34;test\ntest1\n\n发动机撒了附件附近的萨拉\n发动机阿三了房间\nfdsafasdf fdsaf asdf fdsa\nfdsafasd asd\nfsdafasdf\n\n...&#34;,&#34;toc&#34;:&#34;&lt;ul class=\&#34;markdownIt-TOC\&#34;&gt;\n&lt;li&gt;&lt;a href=\&#34;#test\&#34;&gt;test&lt;/a&gt;\n&lt;ul&gt;\n&lt;li&gt;&lt;a href=\&#34;#test1\&#34;&gt;test1&lt;/a&gt;&lt;/li&gt;\n&lt;/ul&gt;\n&lt;/li&gt;\n&lt;/ul&gt;\n&#34;},{&#34;content&#34;:&#34;&lt;blockquote&gt;\n&lt;p&gt;欢迎来到我的小站呀，很高兴遇见你！🤝&lt;/p&gt;\n&lt;/blockquote&gt;\n&lt;h2 id=\&#34;关于本站\&#34;&gt;🏠 关于本站&lt;/h2&gt;\n&lt;h2 id=\&#34;博主是谁\&#34;&gt;👨‍💻 博主是谁&lt;/h2&gt;\n&lt;h2 id=\&#34;兴趣爱好\&#34;&gt;⛹ 兴趣爱好&lt;/h2&gt;\n&lt;h2 id=\&#34;联系我呀\&#34;&gt;📬 联系我呀&lt;/h2&gt;\n&#34;,&#34;fileName&#34;:&#34;about&#34;,&#34;abstract&#34;:&#34;&#34;,&#34;title&#34;:&#34;关于&#34;,&#34;tags&#34;:[],&#34;date&#34;:&#34;2019-01-25 19:09:48&#34;,&#34;dateFormat&#34;:&#34;2019-01-25&#34;,&#34;feature&#34;:&#34;&#34;,&#34;link&#34;:&#34;https://ro0ki4.github.io/post/about/&#34;,&#34;hideInList&#34;:true,&#34;isTop&#34;:false,&#34;stats&#34;:{&#34;text&#34;:&#34;1 min read&#34;,&#34;time&#34;:6000,&#34;words&#34;:31,&#34;minutes&#34;:1},&#34;description&#34;:&#34;\n欢迎来到我的小站呀，很高兴遇见你！🤝\n\n🏠 关于本站\n👨‍💻 博主是谁\n⛹ 兴趣爱好\n📬 联系我呀\n...&#34;,&#34;toc&#34;:&#34;&lt;ul class=\&#34;markdownIt-TOC\&#34;&gt;\n&lt;li&gt;\n&lt;ul&gt;\n&lt;li&gt;&lt;a href=\&#34;#%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99\&#34;&gt;🏠 关于本站&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=\&#34;#%E5%8D%9A%E4%B8%BB%E6%98%AF%E8%B0%81\&#34;&gt;👨‍💻 博主是谁&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=\&#34;#%E5%85%B4%E8%B6%A3%E7%88%B1%E5%A5%BD\&#34;&gt;⛹ 兴趣爱好&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=\&#34;#%E8%81%94%E7%B3%BB%E6%88%91%E5%91%80\&#34;&gt;📬 联系我呀&lt;/a&gt;&lt;/li&gt;\n&lt;/ul&gt;\n&lt;/li&gt;\n&lt;/ul&gt;\n&#34;},{&#34;content&#34;:&#34;&lt;p&gt;👏  欢迎使用 &lt;strong&gt;Gridea&lt;/strong&gt; ！&lt;br&gt;\n✍️  &lt;strong&gt;Gridea&lt;/strong&gt; 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...&lt;/p&gt;\n&lt;!-- more --&gt;\n&lt;p&gt;&lt;a href=\&#34;https://github.com/getgridea/gridea\&#34;&gt;Github&lt;/a&gt;&lt;br&gt;\n&lt;a href=\&#34;https://gridea.dev/\&#34;&gt;Gridea 主页&lt;/a&gt;&lt;br&gt;\n&lt;a href=\&#34;http://fehey.com/\&#34;&gt;示例网站&lt;/a&gt;&lt;/p&gt;\n&lt;h2 id=\&#34;特性\&#34;&gt;特性👇&lt;/h2&gt;\n&lt;p&gt;📝  你可以使用最酷的 &lt;strong&gt;Markdown&lt;/strong&gt; 语法，进行快速创作&lt;/p&gt;\n&lt;p&gt;🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片&lt;/p&gt;\n&lt;p&gt;🏷️  你可以对文章进行标签分组&lt;/p&gt;\n&lt;p&gt;📋  你可以自定义菜单，甚至可以创建外部链接菜单&lt;/p&gt;\n&lt;p&gt;💻  你可以在 &lt;strong&gt;Windows&lt;/strong&gt;，&lt;strong&gt;MacOS&lt;/strong&gt; 或 &lt;strong&gt;Linux&lt;/strong&gt; 设备上使用此客户端&lt;/p&gt;\n&lt;p&gt;🌎  你可以使用 &lt;strong&gt;𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌&lt;/strong&gt; 或 &lt;strong&gt;Coding Pages&lt;/strong&gt; 向世界展示，未来将支持更多平台&lt;/p&gt;\n&lt;p&gt;💬  你可以进行简单的配置，接入 &lt;a href=\&#34;https://github.com/gitalk/gitalk\&#34;&gt;Gitalk&lt;/a&gt; 或 &lt;a href=\&#34;https://github.com/SukkaW/DisqusJS\&#34;&gt;DisqusJS&lt;/a&gt; 评论系统&lt;/p&gt;\n&lt;p&gt;🇬🇧  你可以使用&lt;strong&gt;中文简体&lt;/strong&gt;或&lt;strong&gt;英语&lt;/strong&gt;&lt;/p&gt;\n&lt;p&gt;🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力&lt;/p&gt;\n&lt;p&gt;🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步&lt;/p&gt;\n&lt;p&gt;🌱 当然 &lt;strong&gt;Gridea&lt;/strong&gt; 还很年轻，有很多不足，但请相信，它会不停向前 🏃&lt;/p&gt;\n&lt;p&gt;未来，它一定会成为你离不开的伙伴&lt;/p&gt;\n&lt;p&gt;尽情发挥你的才华吧！&lt;/p&gt;\n&lt;p&gt;😘 Enjoy~&lt;/p&gt;\n&#34;,&#34;fileName&#34;:&#34;hello-gridea&#34;,&#34;abstract&#34;:&#34;&lt;p&gt;👏  欢迎使用 &lt;strong&gt;Gridea&lt;/strong&gt; ！&lt;br&gt;\n✍️  &lt;strong&gt;Gridea&lt;/strong&gt; 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...&lt;/p&gt;\n&#34;,&#34;title&#34;:&#34;Hello Gridea&#34;,&#34;tags&#34;:[{&#34;name&#34;:&#34;Gridea&#34;,&#34;slug&#34;:&#34;MmEtsacGO&#34;,&#34;used&#34;:true,&#34;link&#34;:&#34;https://ro0ki4.github.io/tag/MmEtsacGO/&#34;}],&#34;date&#34;:&#34;2018-12-12 00:00:00&#34;,&#34;dateFormat&#34;:&#34;2018-12-12&#34;,&#34;feature&#34;:&#34;https://ro0ki4.github.io/post-images/hello-gridea.png&#34;,&#34;link&#34;:&#34;https://ro0ki4.github.io/post/hello-gridea/&#34;,&#34;hideInList&#34;:false,&#34;isTop&#34;:false,&#34;stats&#34;:{&#34;text&#34;:&#34;2 min read&#34;,&#34;time&#34;:62000,&#34;words&#34;:298,&#34;minutes&#34;:2},&#34;description&#34;:&#34;👏  欢迎使用 Gridea ！\n✍️  Gridea 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...\n\nGithub\nGridea 主页\n示例网站\n特性👇\n📝  你可以使用最酷的 Markdo...&#34;,&#34;toc&#34;:&#34;&lt;ul class=\&#34;markdownIt-TOC\&#34;&gt;\n&lt;li&gt;\n&lt;ul&gt;\n&lt;li&gt;&lt;a href=\&#34;#%E7%89%B9%E6%80%A7\&#34;&gt;特性👇&lt;/a&gt;&lt;/li&gt;\n&lt;/ul&gt;\n&lt;/li&gt;\n&lt;/ul&gt;\n&#34;}]";
+  // var escape = "[{&#34;content&#34;:&#34;&lt;h2 id=\&#34;1-快速排序\&#34;&gt;1.  快速排序&lt;/h2&gt;\n&lt;ul&gt;\n&lt;li&gt;主要就在于理解为什么内层循环是从右边开始以及内层循环判断条件&lt;strong&gt;nums[right] &amp;gt;= flag&lt;/strong&gt;中的**=**，它导致了快排不稳定&lt;/li&gt;\n&lt;/ul&gt;\n&lt;pre&gt;&lt;code class=\&#34;language-java\&#34;&gt;void sort(int[] nums, int l , int r){\n    //一律采用左闭右闭\n    if(i &amp;gt;= j)\n        return;\n   \tint left = l;\n    int right = r;\n    int flag = nums[left];\n    while(left &amp;lt; right){\n        while(left&amp;lt;right &amp;amp;&amp;amp; nums[right] &amp;gt;= flag){\n            right--;\n        }\n        while(left&amp;lt;right &amp;amp;&amp;amp; nums[left] &amp;lt;= flag){\n            left++;\n        }\n        if(left&amp;lt;right){\n            int tem = nums[left];\n            nums[left] = nums[right];\n            nums[right] = tem;\n        }\n    }\n    nums[l] = nums[left];\n    nums[left] = flag;\n    sort(nums,l,left-1);\n    sort(nums,left+1,r);\n}\n&lt;/code&gt;&lt;/pre&gt;\n&lt;h2 id=\&#34;归并排序\&#34;&gt;归并排序&lt;/h2&gt;\n&lt;ul&gt;\n&lt;li&gt;重点理解归并排序的自底向上的思想&lt;/li&gt;\n&lt;/ul&gt;\n&lt;pre&gt;&lt;code class=\&#34;language-java\&#34;&gt;void sort(int[] nums, int l, int r){\n    if(l &amp;gt;= r)\n        return;\n   \tint mid = (l+r)&amp;gt;&amp;gt;1;\n    sort(nums,l,mid);\n    sort(nusm,mid+1,r);\n    merge(nums,l,r);\n}\n\nvoid merge(int[] nums, int l, int r){\n    int mid = (l+r)&amp;gt;&amp;gt;1;\n    int[] arrayLeft = new int[mid-l+1];\n    int[] arrayRight = new int[r-mid+1];\n    \n    System.arraycopy(nums,l,arrayLeft,0,mid-l+1);\n    System.arraycopy(nums,mid+1,arrayRight,0,r-mid);\n    \n    int left = 0;\n    int right = 0;\n    \n    int index = l;\n    \n    while(left &amp;lt; arrayLeft.length &amp;amp;&amp;amp; right &amp;lt; arrayRight.length){\n        int val1 = arrayLeft[left];\n        int val2 = arrayRight[right];\n        if(val1 &amp;gt; val2){\n            nums[index++] = val1;\n            left++;\n        }else{\n            nums[index++] = val2;\n            right++;\n        }\n    }\n    if(left &amp;gt;= arrayLeft.length){\n        for(int i = index; i &amp;lt;= r; i++){\n        \tnums[index] = arrayRight[right++];\n    \t}\n    }else{\n        for(int i = index; i &amp;lt;= r; i++){\n            nums[index] = arrayLeft[left++];\n        }\n    }\n}\n&lt;/code&gt;&lt;/pre&gt;\n&lt;h2 id=\&#34;堆排序\&#34;&gt;堆排序&lt;/h2&gt;\n&lt;ul&gt;\n&lt;li&gt;它和快排的区别在于它是稳定的排序，也是三个排序中相对复杂的一种&lt;/li&gt;\n&lt;li&gt;parent[i] --&amp;gt; 2i + 1, 2i + 2&lt;/li&gt;\n&lt;li&gt;son[i]  --&amp;gt; (i-1)/2&lt;/li&gt;\n&lt;/ul&gt;\n&lt;pre&gt;&lt;code class=\&#34;language-java\&#34;&gt;void adjustHeap(int[] nums, int index, int length){\n    //重点关注length代表的意义\n    int val = nums[index];\n    for(int i = index*2+1; i &amp;lt; length; i = i*2+1){\n        if(i+1 &amp;lt; length &amp;amp;&amp;amp; nums[i] &amp;lt; nums[i+1]){\n            i++;\n        }\n        if(val &amp;lt; arr[i]){\n            nums[index] = arr[i];\n            index = i;\n        }else{\n            break;\n        }\n    }\n    nums[i] = val;\n}\n\nvoid initHeap(int[] nums){\n    int len = nums.length;\n    for(int i = (len-2)/2; i &amp;gt;= 0; i--){\n        adjustHeap(nums,i,len);\n    }\n}\n\nvoid swap(int[] nums, int i, int j){\n    int tem = nums[i];\n    nums[i] = nums[j];\n    nums[j] = tem;\n}\n\nvoid sort(int[] nums){\n    initHeap(nums);\n    int len = nums.length;\n    for(int i = 0; i &amp;lt; len; i++){\n        swap(nums,i,len-1-i);\n        adjustHeap(nums,0,len-1);\n    }\n}\n&lt;/code&gt;&lt;/pre&gt;\n&#34;,&#34;fileName&#34;:&#34;san-da-pai-xu&#34;,&#34;abstract&#34;:&#34;&#34;,&#34;title&#34;:&#34;三大排序&#34;,&#34;tags&#34;:[],&#34;date&#34;:&#34;2020-09-17 22:44:56&#34;,&#34;dateFormat&#34;:&#34;2020-09-17&#34;,&#34;feature&#34;:&#34;&#34;,&#34;link&#34;:&#34;https://ro0ki4.github.io/post/san-da-pai-xu/&#34;,&#34;hideInList&#34;:false,&#34;isTop&#34;:false,&#34;stats&#34;:{&#34;text&#34;:&#34;3 min read&#34;,&#34;time&#34;:164000,&#34;words&#34;:491,&#34;minutes&#34;:3},&#34;description&#34;:&#34;1.  快速排序\n\n主要就在于理解为什么内层循环是从右边开始以及内层循环判断条件nums[right] &amp;gt;= flag中的**=**，它导致了快排不稳定\n\nvoid sort(int[] nums, int l , int r){\n ...&#34;,&#34;toc&#34;:&#34;&lt;ul class=\&#34;markdownIt-TOC\&#34;&gt;\n&lt;li&gt;\n&lt;ul&gt;\n&lt;li&gt;&lt;a href=\&#34;#1-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F\&#34;&gt;1.  快速排序&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=\&#34;#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F\&#34;&gt;归并排序&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=\&#34;#%E5%A0%86%E6%8E%92%E5%BA%8F\&#34;&gt;堆排序&lt;/a&gt;&lt;/li&gt;\n&lt;/ul&gt;\n&lt;/li&gt;\n&lt;/ul&gt;\n&#34;},{&#34;content&#34;:&#34;&lt;blockquote&gt;\n&lt;p&gt;欢迎来到我的小站呀，很高兴遇见你！🤝&lt;/p&gt;\n&lt;/blockquote&gt;\n&lt;h2 id=\&#34;关于本站\&#34;&gt;🏠 关于本站&lt;/h2&gt;\n&lt;h2 id=\&#34;博主是谁\&#34;&gt;👨‍💻 博主是谁&lt;/h2&gt;\n&lt;h2 id=\&#34;兴趣爱好\&#34;&gt;⛹ 兴趣爱好&lt;/h2&gt;\n&lt;h2 id=\&#34;联系我呀\&#34;&gt;📬 联系我呀&lt;/h2&gt;\n&#34;,&#34;fileName&#34;:&#34;about&#34;,&#34;abstract&#34;:&#34;&#34;,&#34;title&#34;:&#34;关于&#34;,&#34;tags&#34;:[],&#34;date&#34;:&#34;2019-01-25 19:09:48&#34;,&#34;dateFormat&#34;:&#34;2019-01-25&#34;,&#34;feature&#34;:&#34;&#34;,&#34;link&#34;:&#34;https://ro0ki4.github.io/post/about/&#34;,&#34;hideInList&#34;:true,&#34;isTop&#34;:false,&#34;stats&#34;:{&#34;text&#34;:&#34;1 min read&#34;,&#34;time&#34;:6000,&#34;words&#34;:31,&#34;minutes&#34;:1},&#34;description&#34;:&#34;\n欢迎来到我的小站呀，很高兴遇见你！🤝\n\n🏠 关于本站\n👨‍💻 博主是谁\n⛹ 兴趣爱好\n📬 联系我呀\n...&#34;,&#34;toc&#34;:&#34;&lt;ul class=\&#34;markdownIt-TOC\&#34;&gt;\n&lt;li&gt;\n&lt;ul&gt;\n&lt;li&gt;&lt;a href=\&#34;#%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99\&#34;&gt;🏠 关于本站&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=\&#34;#%E5%8D%9A%E4%B8%BB%E6%98%AF%E8%B0%81\&#34;&gt;👨‍💻 博主是谁&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=\&#34;#%E5%85%B4%E8%B6%A3%E7%88%B1%E5%A5%BD\&#34;&gt;⛹ 兴趣爱好&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=\&#34;#%E8%81%94%E7%B3%BB%E6%88%91%E5%91%80\&#34;&gt;📬 联系我呀&lt;/a&gt;&lt;/li&gt;\n&lt;/ul&gt;\n&lt;/li&gt;\n&lt;/ul&gt;\n&#34;},{&#34;content&#34;:&#34;&lt;p&gt;👏  欢迎使用 &lt;strong&gt;Gridea&lt;/strong&gt; ！&lt;br&gt;\n✍️  &lt;strong&gt;Gridea&lt;/strong&gt; 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...&lt;/p&gt;\n&lt;!-- more --&gt;\n&lt;p&gt;&lt;a href=\&#34;https://github.com/getgridea/gridea\&#34;&gt;Github&lt;/a&gt;&lt;br&gt;\n&lt;a href=\&#34;https://gridea.dev/\&#34;&gt;Gridea 主页&lt;/a&gt;&lt;br&gt;\n&lt;a href=\&#34;http://fehey.com/\&#34;&gt;示例网站&lt;/a&gt;&lt;/p&gt;\n&lt;h2 id=\&#34;特性\&#34;&gt;特性👇&lt;/h2&gt;\n&lt;p&gt;📝  你可以使用最酷的 &lt;strong&gt;Markdown&lt;/strong&gt; 语法，进行快速创作&lt;/p&gt;\n&lt;p&gt;🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片&lt;/p&gt;\n&lt;p&gt;🏷️  你可以对文章进行标签分组&lt;/p&gt;\n&lt;p&gt;📋  你可以自定义菜单，甚至可以创建外部链接菜单&lt;/p&gt;\n&lt;p&gt;💻  你可以在 &lt;strong&gt;Windows&lt;/strong&gt;，&lt;strong&gt;MacOS&lt;/strong&gt; 或 &lt;strong&gt;Linux&lt;/strong&gt; 设备上使用此客户端&lt;/p&gt;\n&lt;p&gt;🌎  你可以使用 &lt;strong&gt;𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌&lt;/strong&gt; 或 &lt;strong&gt;Coding Pages&lt;/strong&gt; 向世界展示，未来将支持更多平台&lt;/p&gt;\n&lt;p&gt;💬  你可以进行简单的配置，接入 &lt;a href=\&#34;https://github.com/gitalk/gitalk\&#34;&gt;Gitalk&lt;/a&gt; 或 &lt;a href=\&#34;https://github.com/SukkaW/DisqusJS\&#34;&gt;DisqusJS&lt;/a&gt; 评论系统&lt;/p&gt;\n&lt;p&gt;🇬🇧  你可以使用&lt;strong&gt;中文简体&lt;/strong&gt;或&lt;strong&gt;英语&lt;/strong&gt;&lt;/p&gt;\n&lt;p&gt;🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力&lt;/p&gt;\n&lt;p&gt;🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步&lt;/p&gt;\n&lt;p&gt;🌱 当然 &lt;strong&gt;Gridea&lt;/strong&gt; 还很年轻，有很多不足，但请相信，它会不停向前 🏃&lt;/p&gt;\n&lt;p&gt;未来，它一定会成为你离不开的伙伴&lt;/p&gt;\n&lt;p&gt;尽情发挥你的才华吧！&lt;/p&gt;\n&lt;p&gt;😘 Enjoy~&lt;/p&gt;\n&#34;,&#34;fileName&#34;:&#34;hello-gridea&#34;,&#34;abstract&#34;:&#34;&lt;p&gt;👏  欢迎使用 &lt;strong&gt;Gridea&lt;/strong&gt; ！&lt;br&gt;\n✍️  &lt;strong&gt;Gridea&lt;/strong&gt; 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...&lt;/p&gt;\n&#34;,&#34;title&#34;:&#34;Hello Gridea&#34;,&#34;tags&#34;:[{&#34;name&#34;:&#34;Gridea&#34;,&#34;slug&#34;:&#34;MmEtsacGO&#34;,&#34;used&#34;:true,&#34;link&#34;:&#34;https://ro0ki4.github.io/tag/MmEtsacGO/&#34;}],&#34;date&#34;:&#34;2018-12-12 00:00:00&#34;,&#34;dateFormat&#34;:&#34;2018-12-12&#34;,&#34;feature&#34;:&#34;https://ro0ki4.github.io/post-images/hello-gridea.png&#34;,&#34;link&#34;:&#34;https://ro0ki4.github.io/post/hello-gridea/&#34;,&#34;hideInList&#34;:false,&#34;isTop&#34;:false,&#34;stats&#34;:{&#34;text&#34;:&#34;2 min read&#34;,&#34;time&#34;:62000,&#34;words&#34;:298,&#34;minutes&#34;:2},&#34;description&#34;:&#34;👏  欢迎使用 Gridea ！\n✍️  Gridea 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...\n\nGithub\nGridea 主页\n示例网站\n特性👇\n📝  你可以使用最酷的 Markdo...&#34;,&#34;toc&#34;:&#34;&lt;ul class=\&#34;markdownIt-TOC\&#34;&gt;\n&lt;li&gt;\n&lt;ul&gt;\n&lt;li&gt;&lt;a href=\&#34;#%E7%89%B9%E6%80%A7\&#34;&gt;特性👇&lt;/a&gt;&lt;/li&gt;\n&lt;/ul&gt;\n&lt;/li&gt;\n&lt;/ul&gt;\n&#34;}]";
   // var json = escape.substr(1, escape.length - 2);
   // var datas = json.split(',');
   // for (let i=0; i < datas.length; i++) {
