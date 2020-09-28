@@ -2,13 +2,48 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ro0ki4.github.io</id>
     <title>Gridea</title>
-    <updated>2020-09-28T16:33:33.278Z</updated>
+    <updated>2020-09-28T16:34:29.296Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ro0ki4.github.io"/>
     <link rel="self" href="https://ro0ki4.github.io/atom.xml"/>
     <logo>https://ro0ki4.github.io/images/avatar.png</logo>
     <icon>https://ro0ki4.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[ https建立连接的过程]]></title>
+        <id>https://ro0ki4.github.io/post/https-jian-li-lian-jie-de-guo-cheng/</id>
+        <link href="https://ro0ki4.github.io/post/https-jian-li-lian-jie-de-guo-cheng/">
+        </link>
+        <updated>2020-09-28T16:34:07.000Z</updated>
+        <content type="html"><![CDATA[<ol>
+<li>
+<p>首先客户端发送自己支持的加密协议--类似SSL&amp;&amp;TLS</p>
+</li>
+<li>
+<p>服务端自己选择一个加密协议</p>
+</li>
+<li>
+<p>服务端发送自己的CA机构颁发给自己的证书给客户端</p>
+<ul>
+<li>CA机构颁发给网站的证书主要内容是<strong>用CA机构的私钥加密的网站服务器的公钥</strong></li>
+<li>客户端浏览器中存有CA机构颁发的根证书，我们可以间接通过根证书中的根CA机构的公钥来验证颁发该CA证书机构的真实性，然后再确定服务端公钥的真实性</li>
+</ul>
+</li>
+<li>
+<p>客户端验证服务端公钥的真实性后，通过生成一个随机数作为<strong>对称密钥</strong>（毕竟非对称加密对于算力消耗太大了），将这个随机数通过自己的私钥和服务器的公钥加密之后发送到服务端</p>
+</li>
+<li>
+<p>服务端接收到加密后的随机数，然后使用自己的私钥和客户端的公钥解密出真正的随机数，然后使用该随机数来进行数据加密，发送数据</p>
+</li>
+<li>
+<p>客户端接收到服务端的数据之后使用自己生成的那个随机数进行解密。现在SSL通信已经开始了。</p>
+</li>
+<li>
+<p>现在就是一个普通的http连接过程了</p>
+</li>
+</ol>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[ ThreadPool]]></title>
         <id>https://ro0ki4.github.io/post/threadpool/</id>
