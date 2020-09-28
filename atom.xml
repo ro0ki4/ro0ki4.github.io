@@ -2,13 +2,199 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ro0ki4.github.io</id>
     <title>Gridea</title>
-    <updated>2020-09-17T16:58:44.235Z</updated>
+    <updated>2020-09-28T16:33:33.278Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ro0ki4.github.io"/>
     <link rel="self" href="https://ro0ki4.github.io/atom.xml"/>
     <logo>https://ro0ki4.github.io/images/avatar.png</logo>
     <icon>https://ro0ki4.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[ ThreadPool]]></title>
+        <id>https://ro0ki4.github.io/post/threadpool/</id>
+        <link href="https://ro0ki4.github.io/post/threadpool/">
+        </link>
+        <updated>2020-09-28T16:31:10.000Z</updated>
+        <content type="html"><![CDATA[<ul>
+<li>创建一个线程池需要许多的参数</li>
+<li></li>
+</ul>
+<pre><code class="language-java"> public ThreadPoolExecutor(int corePoolSize,
+                           int maxPoolSize,
+                           long keepAliveTime,
+                           TimeUnit unit,
+                           BlockQueue&lt;Runnable&gt; workQueue,
+                           ThreadFactory threadFactory,
+                           RejectExecutorHandler handler)
+ ~~~java
+* 第一个参数是线程池需要维持的长期存活的线程数
+
+* 第二个参数是线程池能够运行的线程的最大数量
+
+* 第三个参数是线程被回收的等待时间
+
+* 第四个参数是线程被回收等待时间的单位
+
+* 第五个参数是任务队列
+
+* 第六个参数是创建线程的线程工厂，指定线程的一些信息
+
+* 第七个参数是作为线程池已经满了之后的遇到新的任务时的处理方式
+
+
+
+1. 当我们创建一个线程池时，里面没有一个线程。同时我们需要一个任务队列作为参数当成线程池的创建参数来初始化，但是哪怕任务队列中存在任务，线程池也不会立刻创建线程执行它。
+2. 当我们调用Executed方法添加一个任务，线程池会做如下的判断
+  1. 判断当前的线程数量是否小于corePoolSize，如果小于，那么直接创建一个线程执行这个任务
+  2. 如果当前的线程数量大于这个corePoolSize，那么将任务放到任务队列workQueue中
+  3. 如果当前的任务队列已经满了，且线程数小于maxPoolSize，那么还是需要创建一个线程运行这个任务
+  4. 如果当前的线程数已经等于maxPoolSize，并且任务队列也已经满了，线程池抛出一个异常，表示已经无法再接受任务了。
+3. 一个线程任务执行完成之后，它会从任务队列中取出一个任务拿来执行
+4. 如果一个一个线程无事可干时间超过keepAliveTime，那么判断现在线程池中线程的数量是否大于corePoolSize，如果大于，那么这个线程被结束，如果小于，那么线程继续存活。
+5. 因此我们可以看到，线程池完成所有的任务之后，线程的数量是corePoolSize。
+
+
+
+* 自定义实现一个线程池
+
+
+
+
+
+
+~~~ java
+ package com.Thread.ThreadPoolExecutor;
+ 
+ import java.util.ArrayList;
+ import java.util.HashSet;
+ import java.util.concurrent.ArrayBlockingQueue;
+ import java.util.concurrent.BlockingQueue;
+ import java.util.concurrent.locks.ReentrantLock;
+ 
+ public class MyThreadPoolExecutor {
+     private volatile boolean RUNNING = true;// 是否正在运行
+     private final ReentrantLock lock = new ReentrantLock();// 并发锁
+     private final HashSet&lt;Worker&gt; workers = new HashSet&lt;&gt;();// 不重复的工作集
+     private static BlockingQueue&lt;Runnable&gt; queue = null;// 任务阻塞队列
+     private final ArrayList&lt;Thread&gt; threads = new ArrayList&lt;&gt;();// 线程工厂
+     private volatile int poolsize;// 线程池的核心线程数
+     private volatile int coresize;// 当前线程池中的线程数
+     private volatile boolean shutdown = false;// 是否停止工作
+ 
+     public MyThreadPoolExecutor(int poolsize) {
+         // TODO Auto-generated constructor stub
+         this.poolsize = poolsize;
+         queue = new ArrayBlockingQueue&lt;&gt;(poolsize);
+     }
+ 
+     public void execute(Runnable command) {
+         if (command == null) {
+             throw new NullPointerException();
+         }
+ 
+         if (coresize &lt; poolsize) {
+             addThread(command);
+         } else {
+             try {
+                 queue.put(command);
+             } catch (InterruptedException e) {
+                 // TODO Auto-generated catch block
+                 e.printStackTrace();
+             }
+         }
+     }
+ 
+     private void addThread(Runnable task) {
+ 
+         lock.lock();
+         try {
+             coresize++;
+             Worker worker = new Worker(task);
+             workers.add(worker);
+             Thread thread = new Thread(worker);
+             threads.add(thread);
+             thread.start();
+         } finally {
+             // TODO: handle finally clause
+             lock.unlock();
+         }
+ 
+     }
+ 
+     public void shutdown() {
+         RUNNING = false;
+         if (!workers.isEmpty()) {
+             for (Worker worker : workers) {
+                 worker.interruptIfIdle();
+             }
+         }
+         shutdown = true;
+         Thread.currentThread().interrupt();
+     }
+ 
+     private final class Worker implements Runnable {
+ 
+         public Worker(Runnable task) {
+             // TODO Auto-generated constructor stub
+             queue.offer(task);
+         }
+ 
+         public Runnable getTask() throws InterruptedException {
+             return queue.take();
+         }
+ 
+         @Override
+         public void run() {
+             // TODO Auto-generated method stub
+             while (true &amp;&amp; RUNNING) {
+                 if (shutdown) {
+                     Thread.interrupted();
+                 }
+                 Runnable task = null;
+                 try {
+                     task = getTask();
+                     task.run();
+                 } catch (InterruptedException e) {
+ 
+                 }
+             }
+         }
+ 
+         public void interruptIfIdle() {
+             for (Thread thread : threads) {
+                 System.out.println(thread.getName() + &quot; interrupt&quot;);
+                 thread.interrupt();
+             }
+         }
+ 
+     }
+ 
+     public static void main(String[] args) {
+ 
+     }
+ }
+ 
+ class Main {
+     public static void main(String[] args) {
+         MyThreadPoolExecutor executor = new MyThreadPoolExecutor(3);
+         for (int i = 0; i &lt; 10; i++) {
+             executor.execute(new Runnable() {
+ 
+                 @Override
+                 public void run() {
+                     // TODO Auto-generated method stub
+                     System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + &quot;在工作....&quot;);
+                 }
+             });
+         }
+ 
+         executor.shutdown();
+     }
+ }
+ 
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[动态规划]]></title>
         <id>https://ro0ki4.github.io/post/dong-tai-gui-hua/</id>

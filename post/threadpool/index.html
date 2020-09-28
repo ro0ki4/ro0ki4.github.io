@@ -8,7 +8,7 @@
 <meta name="keywords" content="Gridea静态个人博客">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>Gridea</title>
+<title> ThreadPool | Gridea</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1601310810759">
 <link rel="stylesheet" href="/styles/main.css">
 <link rel="stylesheet" href="/media/css/mist.css">
@@ -29,7 +29,8 @@
 
 
 
-  <meta name="description" content="">
+  <meta name="description" content=" ThreadPool" />
+  <meta name="keywords" content="" />
 </head>
 
 <body>
@@ -82,7 +83,7 @@
             
               
             
-            <li class="nav-item nav-item-active">
+            <li class="nav-item ">
               
               
                 <a href="/archives/" target="_self">
@@ -159,10 +160,25 @@
   <div class="main-continer">
     
     <div
-      class="section-layout bg-color mist">
+      class="section-layout mist bg-color">
       <div class="section-layout-wrapper">
-        <div id="sidebarMeta" class="sidebar">
-    
+        
+
+<div class="sidebar">
+  
+    <div class="sidebar-box box-shadow-wrapper  right-motion" id="sidebar">
+      
+        <div class="post-list-sidebar">
+          <div class="sidebar-title">
+            <span id="tocSideBar" class="sidebar-title-item sidebar-title-active">文章目录</span>
+            <span id="metaSideBar" class="sidebar-title-item">站点概览</span>
+          </div>
+        </div>
+      
+      <div class="sidebar-body mist" id="sidebar_body">
+        
+          
+            
 <div class="sidebar-wrapper box-shadow-wrapper ">
   <div class="sidebar-item">
     <img class="site-author-image right-motion" src="/images/avatar.png"/>
@@ -195,97 +211,334 @@
 
 
 </div>
+          
+        
+      </div>
+    </div>
+  
 </div>
 <script>
-  let sidebarMeta = document.querySelector('#sidebarMeta');
-  let scheme = 'mist';
-  let sidebarWrapper = document.querySelector('.sidebar-wrapper');
-  if (sidebarMeta && (scheme === 'pisces' || scheme === 'gemini')) {
-    document.addEventListener('scroll', function(e) {
-      if (document.scrollingElement.scrollTop > parseInt(sidebarMeta.style.marginTop) + 10) {
-        sidebarWrapper.classList.add('home-sidebar-fixed')
-      } else {
-        sidebarWrapper.classList.remove('home-sidebar-fixed')
-      }
-    });
-  }
-  </script>
-        <div class="section-box box-shadow-wrapper">
-          <section class="section archives-section bg-color posts-expand">
-            
+  const SIDEBAR_TITLE_ACTIVE = 'sidebar-title-active';
+  const SIDEBAR_BODY_ACTIVE = 'sidebar-body-active';
+  const SLIDE_UP_IN = 'slide-up-in';
 
-<div class="bg-color">
-  <div class="archive-timeline-box">
-    <div class="archive-timeline-title">
-      
-        <h2>非常好！目前共计3篇日志，继续努力！</h2>
-      
-    </div>
+  let sidebar = document.querySelector('#sidebar'),
+  tocSideBar = document.querySelector('#tocSideBar'),
+  metaSideBar = document.querySelector('#metaSideBar'),
+  postToc = document.querySelector('#post_toc'),
+  postSiteMeta = document.querySelector('#post_side_meta'),
+  sidebarTitle = document.querySelector('.sidebar-title'),
+  sidebarBody = document.querySelector('#sidebar_body');
+
+  tocSideBar && tocSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  metaSideBar && metaSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  function toggleSidebar(e) {
+    let currentTitle = document.querySelector("."+SIDEBAR_TITLE_ACTIVE);
+    if (currentTitle == e.srcElement) {
+      return ;
+    }
+    let current, showElement, hideElement;
+    if (e.srcElement == metaSideBar) {
+      showElement = postSiteMeta;
+      hideElement = postToc;
+    } else if (e.srcElement == tocSideBar){
+      showElement = postToc;
+      hideElement = postSiteMeta;
+    }
+    currentTitle.classList.remove(SIDEBAR_TITLE_ACTIVE);
+    e.srcElement.classList.add(SIDEBAR_TITLE_ACTIVE);
+
+    window.Velocity(hideElement, 'stop');
+    window.Velocity(hideElement, 'transition.slideUpOut', {
+      display: 'none',
+      duration: 200,
+      complete: function () {
+        window.Velocity(showElement, 'transition.slideDownIn', {
+          duration: 200
+        });
+      }
+    })
+    hideElement.classList.remove(SIDEBAR_BODY_ACTIVE);
+    showElement.classList.add(SIDEBAR_BODY_ACTIVE);
+  }
+
+  postToc && postToc.addEventListener('transitionend', function() {
+    this.classList.remove(SLIDE_UP_IN);
+  });
+
+  if (sidebarBody) {
+    if (sidebarBody.classList.contains('pisces') || sidebarBody.classList.contains('gemini')) {
+      let hasFix = false;
+      let scrollEl = document.querySelector('.main-continer');
+      let limitTop = document.querySelector('#nav_ul').children.length * 42 + 162;
+      window.addEventListener('scroll', function(e) {
+        if (document.scrollingElement.scrollTop >= limitTop) {
+          if (!hasFix) {
+            sidebar.classList.add('sidebar-fixed');
+            hasFix = true;
+          }
+        } else {
+          if (hasFix) {
+            sidebar.classList.remove('sidebar-fixed');
+            hasFix = false;
+          }
+        }
+      });
+    }
+  }
+  
+</script>
+        <div class="section-box box-shadow-wrapper">
+          <div class="section bg-color post post-page">
+            <header class="post-header">
+  <h1 class="post-title">
+    <a class="post-title-link" href="https://ro0ki4.github.io/post/threadpool/">
+       ThreadPool
+    </a>
+  </h1>
+  <div class="post-meta">
     
-      
-      
-        <div class="node-title">
-          <h2 class="tag-year">2020</h2>
-        </div>    
-        
-      
-      <a href="https://ro0ki4.github.io/post/threadpool/">
-        <div class="motion-warpper tag-archive-node">
-          <div class="tag-node">
-            <h1>
-              09-29
-              <small> ThreadPool</small>
-            </h1>
-          </div>  
-      </div>
-      </a>
+    <span class="meta-item pc-show">
+      <i class="fa fa-calendar-o"></i>
+      <span>发布于</span>
+      <span>2020-09-29</span>
+      <span class="post-meta-divider pc-show">|</span>
+    </span>
     
-      
-      
-      <a href="https://ro0ki4.github.io/post/dong-tai-gui-hua/">
-        <div class="motion-warpper tag-archive-node">
-          <div class="tag-node">
-            <h1>
-              09-18
-              <small>动态规划</small>
-            </h1>
-          </div>  
-      </div>
-      </a>
-    
-      
-      
-      <a href="https://ro0ki4.github.io/post/san-da-pai-xu/">
-        <div class="motion-warpper tag-archive-node">
-          <div class="tag-node">
-            <h1>
-              09-17
-              <small>三大排序</small>
-            </h1>
-          </div>  
-      </div>
-      </a>
+    <span class="meta-item">
+      <i class="fa fa-clock-o"></i>
+      <span>5分钟</span>
+    </span>
+    <span class="meta-item">
+      <span class="post-meta-divider">|</span>
+      <i class="fa fa-file-word-o"></i>
+      <span>927<span class="pc-show">字数</span></span>
+    </span>
     
   </div>
-  
-<div class="page bg-color">
-  <ul class="pagination-ul">
-    
-    
-      
-        <li class="pagination-li pagination-active">
-            <a href="/archives/page/../">
-              1
-            </a>
-        </li>
-      
-    
-    
-  </ul>
-</div>
-</div>
+</header>
+            <div class="post-body next-md-body" id="post_body">
+              <ul>
+<li>创建一个线程池需要许多的参数</li>
+<li></li>
+</ul>
+<pre><code class="language-java"> public ThreadPoolExecutor(int corePoolSize,
+                           int maxPoolSize,
+                           long keepAliveTime,
+                           TimeUnit unit,
+                           BlockQueue&lt;Runnable&gt; workQueue,
+                           ThreadFactory threadFactory,
+                           RejectExecutorHandler handler)
+ ~~~java
+* 第一个参数是线程池需要维持的长期存活的线程数
 
-          </section>
+* 第二个参数是线程池能够运行的线程的最大数量
+
+* 第三个参数是线程被回收的等待时间
+
+* 第四个参数是线程被回收等待时间的单位
+
+* 第五个参数是任务队列
+
+* 第六个参数是创建线程的线程工厂，指定线程的一些信息
+
+* 第七个参数是作为线程池已经满了之后的遇到新的任务时的处理方式
+
+
+
+1. 当我们创建一个线程池时，里面没有一个线程。同时我们需要一个任务队列作为参数当成线程池的创建参数来初始化，但是哪怕任务队列中存在任务，线程池也不会立刻创建线程执行它。
+2. 当我们调用Executed方法添加一个任务，线程池会做如下的判断
+  1. 判断当前的线程数量是否小于corePoolSize，如果小于，那么直接创建一个线程执行这个任务
+  2. 如果当前的线程数量大于这个corePoolSize，那么将任务放到任务队列workQueue中
+  3. 如果当前的任务队列已经满了，且线程数小于maxPoolSize，那么还是需要创建一个线程运行这个任务
+  4. 如果当前的线程数已经等于maxPoolSize，并且任务队列也已经满了，线程池抛出一个异常，表示已经无法再接受任务了。
+3. 一个线程任务执行完成之后，它会从任务队列中取出一个任务拿来执行
+4. 如果一个一个线程无事可干时间超过keepAliveTime，那么判断现在线程池中线程的数量是否大于corePoolSize，如果大于，那么这个线程被结束，如果小于，那么线程继续存活。
+5. 因此我们可以看到，线程池完成所有的任务之后，线程的数量是corePoolSize。
+
+
+
+* 自定义实现一个线程池
+
+
+
+
+
+
+~~~ java
+ package com.Thread.ThreadPoolExecutor;
+ 
+ import java.util.ArrayList;
+ import java.util.HashSet;
+ import java.util.concurrent.ArrayBlockingQueue;
+ import java.util.concurrent.BlockingQueue;
+ import java.util.concurrent.locks.ReentrantLock;
+ 
+ public class MyThreadPoolExecutor {
+     private volatile boolean RUNNING = true;// 是否正在运行
+     private final ReentrantLock lock = new ReentrantLock();// 并发锁
+     private final HashSet&lt;Worker&gt; workers = new HashSet&lt;&gt;();// 不重复的工作集
+     private static BlockingQueue&lt;Runnable&gt; queue = null;// 任务阻塞队列
+     private final ArrayList&lt;Thread&gt; threads = new ArrayList&lt;&gt;();// 线程工厂
+     private volatile int poolsize;// 线程池的核心线程数
+     private volatile int coresize;// 当前线程池中的线程数
+     private volatile boolean shutdown = false;// 是否停止工作
+ 
+     public MyThreadPoolExecutor(int poolsize) {
+         // TODO Auto-generated constructor stub
+         this.poolsize = poolsize;
+         queue = new ArrayBlockingQueue&lt;&gt;(poolsize);
+     }
+ 
+     public void execute(Runnable command) {
+         if (command == null) {
+             throw new NullPointerException();
+         }
+ 
+         if (coresize &lt; poolsize) {
+             addThread(command);
+         } else {
+             try {
+                 queue.put(command);
+             } catch (InterruptedException e) {
+                 // TODO Auto-generated catch block
+                 e.printStackTrace();
+             }
+         }
+     }
+ 
+     private void addThread(Runnable task) {
+ 
+         lock.lock();
+         try {
+             coresize++;
+             Worker worker = new Worker(task);
+             workers.add(worker);
+             Thread thread = new Thread(worker);
+             threads.add(thread);
+             thread.start();
+         } finally {
+             // TODO: handle finally clause
+             lock.unlock();
+         }
+ 
+     }
+ 
+     public void shutdown() {
+         RUNNING = false;
+         if (!workers.isEmpty()) {
+             for (Worker worker : workers) {
+                 worker.interruptIfIdle();
+             }
+         }
+         shutdown = true;
+         Thread.currentThread().interrupt();
+     }
+ 
+     private final class Worker implements Runnable {
+ 
+         public Worker(Runnable task) {
+             // TODO Auto-generated constructor stub
+             queue.offer(task);
+         }
+ 
+         public Runnable getTask() throws InterruptedException {
+             return queue.take();
+         }
+ 
+         @Override
+         public void run() {
+             // TODO Auto-generated method stub
+             while (true &amp;&amp; RUNNING) {
+                 if (shutdown) {
+                     Thread.interrupted();
+                 }
+                 Runnable task = null;
+                 try {
+                     task = getTask();
+                     task.run();
+                 } catch (InterruptedException e) {
+ 
+                 }
+             }
+         }
+ 
+         public void interruptIfIdle() {
+             for (Thread thread : threads) {
+                 System.out.println(thread.getName() + &quot; interrupt&quot;);
+                 thread.interrupt();
+             }
+         }
+ 
+     }
+ 
+     public static void main(String[] args) {
+ 
+     }
+ }
+ 
+ class Main {
+     public static void main(String[] args) {
+         MyThreadPoolExecutor executor = new MyThreadPoolExecutor(3);
+         for (int i = 0; i &lt; 10; i++) {
+             executor.execute(new Runnable() {
+ 
+                 @Override
+                 public void run() {
+                     // TODO Auto-generated method stub
+                     System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + &quot;在工作....&quot;);
+                 }
+             });
+         }
+ 
+         executor.shutdown();
+     }
+ }
+ 
+</code></pre>
+
+            </div>
+            <div class="post-footer">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      适用 Gemini,Pisces 布局,版权说明需配置
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://ro0ki4.github.io/post/threadpool/" title=" ThreadPool">https://ro0ki4.github.io/post/threadpool/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+  <div class="tags">
+    
+  </div>
+  <div class="nav">
+    <div class="nav-prev">
+      
+    </div>
+    <div class="nav-next">
+      
+        <a class="nav-pc-next" title="动态规划" href="https://ro0ki4.github.io/post/dong-tai-gui-hua/">动态规划</a>
+        <a class="nav-mobile-next" title="动态规划" href="https://ro0ki4.github.io/post/dong-tai-gui-hua/">下一篇</a>
+        <i class="fa fa-chevron-right"></i>
+      
+    </div>
+  </div>
+</div>
+            
+  
+
+          </div>
         </div>
       </div>
     </div>
@@ -457,6 +710,36 @@
   // 代码高亮
   hljs.initHighlightingOnLoad();
 
+</script>
+    <div class="light-box" id="light_box"></div>
+<script>
+  let imgs = document.querySelectorAll('.post-body img');
+  let lightBox = document.querySelector('#light_box');
+  lightBox.addEventListener('mousedown', (e) => {
+    e.preventDefault()
+  })
+  lightBox.addEventListener('mousewheel', (e) => {
+    e.preventDefault()
+  })
+  let width = window.innerWidth * 0.8;
+  lightBox.onclick = () => {
+    let img = lightBox.querySelector('img');
+    lightBox.style = '';
+    img && img.remove();
+  }
+  imgs.forEach(item => {
+    item.onclick = function (e) {
+      let lightImg = document.createElement('img');
+      lightImg.src = this.src;
+      lightBox.style = `height: 100%; opacity: 1; background-color: rgba(0, 0, 0, 0.5);cursor: zoom-out;`;
+      lightImg.style = `width: ${width}px; border: 1px solid #fff; border-radius: 2px;`;
+      lightImg.onclick = function () {
+        lightBox.style = '';
+        this.remove();
+      }
+      lightBox.append(lightImg);
+    }
+  })
 </script>
   </div>
 </body>
@@ -935,7 +1218,6 @@ void sort(int[] nums){
   escapeMap.set('&quot;', '"');
   escapeMap.set('&amp;', '&');
 </script> -->
-
 
 
 </html>
