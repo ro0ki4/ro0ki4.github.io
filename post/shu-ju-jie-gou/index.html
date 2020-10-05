@@ -8,7 +8,7 @@
 <meta name="keywords" content="Gridea静态个人博客">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>关于 | Gridea</title>
+<title>数据结构 | Gridea</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1601913511771">
 <link rel="stylesheet" href="/styles/main.css">
 <link rel="stylesheet" href="/media/css/mist.css">
@@ -29,7 +29,7 @@
 
 
 
-  <meta name="description" content="关于" />
+  <meta name="description" content="数据结构" />
   <meta name="keywords" content="" />
 </head>
 
@@ -220,10 +220,11 @@
     <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99">🏠 关于本站</a></li>
-<li><a href="#%E5%8D%9A%E4%B8%BB%E6%98%AF%E8%B0%81">👨‍💻 博主是谁</a></li>
-<li><a href="#%E5%85%B4%E8%B6%A3%E7%88%B1%E5%A5%BD">⛹ 兴趣爱好</a></li>
-<li><a href="#%E8%81%94%E7%B3%BB%E6%88%91%E5%91%80">📬 联系我呀</a></li>
+<li><a href="#%E4%BA%8C%E5%8F%89%E6%A0%91">二叉树</a>
+<ul>
+<li><a href="#searchtree">SearchTree</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -491,8 +492,8 @@
           <div class="section bg-color post post-page">
             <header class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://ro0ki4.github.io/post/about/">
-      关于
+    <a class="post-title-link" href="https://ro0ki4.github.io/post/shu-ju-jie-gou/">
+      数据结构
     </a>
   </h1>
   <div class="post-meta">
@@ -500,30 +501,179 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span>发布于</span>
-      <span>2019-01-25</span>
+      <span>2020-10-05</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>1分钟</span>
+      <span>3分钟</span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>31<span class="pc-show">字数</span></span>
+      <span>380<span class="pc-show">字数</span></span>
     </span>
     
   </div>
 </header>
             <div class="post-body next-md-body" id="post_body">
-              <blockquote>
-<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
-</blockquote>
-<h2 id="关于本站">🏠 关于本站</h2>
-<h2 id="博主是谁">👨‍💻 博主是谁</h2>
-<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
-<h2 id="联系我呀">📬 联系我呀</h2>
+              <h2 id="二叉树">二叉树</h2>
+<h3 id="searchtree">SearchTree</h3>
+<pre><code class="language-java">import java.util.Objects;
+
+public class SearchTree {
+    
+    public static void main(String[] args) {
+        SearchTree searchTree = new SearchTree();
+        Tree root = new Tree(10);
+        searchTree.addTreeNode(root,7);
+        searchTree.addTreeNode(root,15);
+        searchTree.addTreeNode(root,1);
+        searchTree.addTreeNode(root,9);
+        searchTree.addTreeNode(root,13);
+        searchTree.addTreeNode(root,16);
+        searchTree.addTreeNode(root,8);
+        searchTree.addTreeNode(root,14);
+        
+        System.out.println();
+        searchTree.deleteTreeNode(root,15);
+        System.out.println(searchTree.findVal(root,8));
+        
+    }
+    
+    public Tree addTreeNode(Tree root, int val){
+        if(root == null){
+            return new Tree(val);
+        }
+        Tree real = root;
+        while(root != null){
+            if(val &gt; root.val){
+                if(root.right == null){
+                    root.right = new Tree(val);
+                    return real;
+                }
+                root = root.right;
+            }else{
+                if(root.left == null){
+                    root.left = new Tree(val);
+                    return real;
+                }
+                root = root.left;
+            }
+        }
+        return real;
+    }
+    
+    
+    public void deleteTreeNode(Tree root, int val){
+        Tree parent = root;
+        boolean direction = true;
+        while(root != null){
+            if(root.val == val){
+                //寻找到需要删除的节点
+                Tree targetNode = root;
+                //寻找到仅仅小于被删除节点的节点
+                Tree fake = root.left;
+                //如果被删除节点没有左节点
+                if(fake == null){
+                    if(direction){//左边
+                        parent.left = targetNode.right;
+                        return;
+                    }else{
+                        parent.right = targetNode.right;
+                        return;
+                    }
+                }else{
+                    if(fake.right == null){
+                        if(direction) {
+                            fake.right = targetNode.right;
+                            parent.left = fake;
+                            return;
+                        }else{
+                            fake.right = targetNode.right;
+                            parent.right = fake;
+                            return;
+                        }
+                    }else{
+                        while(fake.right.right != null){
+                            fake = fake.right;
+                        }
+                        Tree tem = fake.right;
+                        fake.right = tem.left;
+                        fake = tem;
+                        fake.left = targetNode.left;
+                        fake.right = targetNode.right;
+                        if(direction){
+                            parent.left = fake;
+                            return;
+                        }else{
+                            parent.right = fake;
+                            return;
+                        }
+                    }
+                }
+                
+            }else{
+                if(root.val &gt; val){
+                    parent = root;
+                    direction = true;
+                    root = root.left;
+                }else{
+                    parent = root;
+                    direction = false;
+                    root = root.right;
+                }
+            }
+        }
+    }
+    
+    
+    public boolean findVal(Tree root, int val){
+        if(root == null){
+            return false;
+        }
+        while(root != null){
+            if(root.val == val){
+                return true;
+            }else{
+                if(root.val &gt; val){
+                    root = root.left;
+                }else{
+                    root = root.right;
+                }
+            }
+        }
+        return false;
+    }
+    
+    static class Tree{
+        int val;
+        Tree left;
+        Tree right;
+        
+        public Tree(int val){
+            this.val = val;
+        }
+        
+        public boolean equals(Object o){
+            if(this == o)
+                return true;
+            if(!(o instanceof Tree))
+                return false;
+            Tree tree = (Tree) o;
+            return this.val == tree.val;
+        }
+    
+        @Override
+        public int hashCode() {
+            return Objects.hash(val, left, right);
+        }
+    }
+}
+
+
+</code></pre>
 
             </div>
             <div class="post-footer">
@@ -534,7 +684,7 @@
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="https://ro0ki4.github.io/post/about/" title="关于">https://ro0ki4.github.io/post/about/</a>
+      <a href="https://ro0ki4.github.io/post/shu-ju-jie-gou/" title="数据结构">https://ro0ki4.github.io/post/shu-ju-jie-gou/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -549,6 +699,10 @@
       
     </div>
     <div class="nav-next">
+      
+        <a class="nav-pc-next" title="jvm" href="https://ro0ki4.github.io/post/jvm/">jvm</a>
+        <a class="nav-mobile-next" title="jvm" href="https://ro0ki4.github.io/post/jvm/">下一篇</a>
+        <i class="fa fa-chevron-right"></i>
       
     </div>
   </div>
