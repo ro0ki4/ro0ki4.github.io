@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ro0ki4.github.io</id>
     <title>Gridea</title>
-    <updated>2020-10-05T16:02:23.245Z</updated>
+    <updated>2020-10-05T16:08:28.840Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ro0ki4.github.io"/>
     <link rel="self" href="https://ro0ki4.github.io/atom.xml"/>
@@ -16,7 +16,10 @@
         </link>
         <updated>2020-10-05T15:54:49.000Z</updated>
         <content type="html"><![CDATA[<h2 id="二叉树">二叉树</h2>
-<h3 id="searchtree">SearchTree</h3>
+<h3 id="1-searchtree">1. SearchTree</h3>
+<ul>
+<li>删除操作复杂一些，其余都很直观</li>
+</ul>
 <pre><code class="language-java">import java.util.Objects;
 
 public class SearchTree {
@@ -62,7 +65,12 @@ public class SearchTree {
         return real;
     }
     
-    
+    /**
+     * @action 删除一个节点
+     * 寻找到小于被删除节点的最大节点 来替代 被删除节点
+     * @param root
+     * @param val
+     */    
     public void deleteTreeNode(Tree root, int val){
         Tree parent = root;
         boolean direction = true;
