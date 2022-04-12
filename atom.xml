@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ro0ki4.github.io/</id>
     <title>ro0ki4</title>
-    <updated>2022-03-29T07:12:44.991Z</updated>
+    <updated>2022-04-12T07:07:16.294Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ro0ki4.github.io/"/>
     <link rel="self" href="https://ro0ki4.github.io/atom.xml"/>
@@ -10,6 +10,196 @@
     <logo>https://ro0ki4.github.io/images/avatar.png</logo>
     <icon>https://ro0ki4.github.io/favicon.ico</icon>
     <rights>All rights reserved 2022, ro0ki4</rights>
+    <entry>
+        <title type="html"><![CDATA[solr]]></title>
+        <id>https://ro0ki4.github.io/post/solr/</id>
+        <link href="https://ro0ki4.github.io/post/solr/">
+        </link>
+        <updated>2022-04-12T07:06:41.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="solr">solr</h1>
+<h2 id="查询">查询</h2>
+<ul>
+<li>q
+<ul>
+<li>查询字符串</li>
+</ul>
+</li>
+<li>fq
+<ul>
+<li>filterquery，与q作用相同，fq会将搜索结果存入缓存，一般用来作为筛选项，比如年龄、性别、学历等</li>
+</ul>
+</li>
+<li>fl
+<ul>
+<li>只返回指定的字段结果，可以设置多个</li>
+</ul>
+</li>
+<li>sort
+<ul>
+<li>排序规则，solr中默认有score对象，可以通过score等多个维度进行排序</li>
+</ul>
+</li>
+<li>df
+<ul>
+<li>默认字段，一般在schema中指定</li>
+</ul>
+</li>
+<li>debugquey
+<ul>
+<li>是否开启debug模式，可以查看具体score计算得分信息</li>
+</ul>
+</li>
+<li>wt
+<ul>
+<li>指定查询返回结果的格式，默认为xml格式</li>
+</ul>
+</li>
+<li>timeallowed
+<ul>
+<li>单次查询最大时间</li>
+</ul>
+</li>
+<li>slot
+<ul>
+<li>边际距离，多个item的最大距离</li>
+</ul>
+</li>
+<li>facet
+<ul>
+<li>分组使用</li>
+<li>按照范围分组</li>
+<li>使用多个维度分组</li>
+<li>按照表达式结果分组</li>
+</ul>
+</li>
+</ul>
+<h2 id="四种查询">四种查询</h2>
+<ul>
+<li>
+<p>termquery</p>
+<ul>
+<li>query=fieldA:java</li>
+</ul>
+</li>
+<li>
+<p>phrasequery</p>
+<ul>
+<li>query=filedA:&quot;java&quot;</li>
+<li>是用了position</li>
+</ul>
+</li>
+<li>
+<p>boolquery</p>
+<ul>
+<li>
+<p>{!parser}{xxxxx}or|and{xxxxxx}</p>
+</li>
+<li>
+<p>AND OR</p>
+</li>
+<li>
+<p>四种逻辑操作</p>
+</li>
+<li>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>召回</th>
+<th>得分</th>
+<th>缓存</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>must</td>
+<td>✔️</td>
+<td>✔️</td>
+<td>✖️</td>
+</tr>
+<tr>
+<td>must not</td>
+<td>✔️</td>
+<td>✖️</td>
+<td>✔️</td>
+</tr>
+<tr>
+<td>should</td>
+<td>✖️</td>
+<td>✔️</td>
+<td>✖️</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>✔️</td>
+<td>✖️</td>
+<td>✔️</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</li>
+<li>
+<p>rangequery</p>
+<ul>
+<li>q=*😗&amp;fq=field_a:[1,100]</li>
+</ul>
+</li>
+<li>
+<p>spanquery</p>
+<ul>
+<li>跨度查询</li>
+<li>使用了offset</li>
+</ul>
+</li>
+<li></li>
+</ul>
+<h2 id="相似项甄别">相似项甄别</h2>
+<ul>
+<li>facet和group
+<ul>
+<li>区别
+<ul>
+<li>facet类似mysql中group只能够统计按照某些维度分组后的一些总数指标</li>
+<li>group类似row number 可以获取分组后的每个维度下数据的细项</li>
+<li>facet可以使用表达式结果分组</li>
+</ul>
+</li>
+<li>类似
+<ul>
+<li>都能够使用某些维度来对索引数据分组</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>docValues和stored=true
+<ul>
+<li>区别
+<ul>
+<li>docValues按照列来存储，stored按照行存储。存储时将一条sui ying</li>
+<li>docValues字段可以分词，stored无法分词，只能存储原词</li>
+</ul>
+</li>
+<li>类似
+<ul>
+<li>都是将索引项的详细信息在查询时能够展示，加载到内存中。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="solr-大概流程">Solr 大概流程</h2>
+<figure data-type="image" tabindex="1"><img src="https://gitee.com/ro0ki4/ro0ki4-pic-repo/raw/master/picc/solr%E6%B5%81%E7%A8%8B.png" alt="solr流程" loading="lazy"></figure>
+<h2 id="solr自定义解析器">solr自定义解析器</h2>
+<ul>
+<li>
+<pre><code class="language-java">SearchHandler:handleRequestBody -&gt; searchComponent:prepare -&gt; Qparser:getParser -&gt; QparsePlugin:createParse -&gt; CustomerQParser实例
+</code></pre>
+</li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[First test]]></title>
         <id>https://ro0ki4.github.io/post/first-test/</id>

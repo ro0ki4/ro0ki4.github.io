@@ -9,7 +9,7 @@
 <meta name="description" content="一给窝里giao">
 <meta name="theme-color" content="#000">
 <title>ro0ki4</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1648537962877">
+<link rel="shortcut icon" href="/favicon.ico?v=1649747232053">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -197,7 +197,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">1</span>
+        <span class="site-item-stat-count">2</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -239,7 +239,7 @@
   <div class="archive-timeline-box">
     <div class="archive-timeline-title">
       
-        <h2 class="language" data-lan="archives" data-count="1">非常好！目前共计1篇文章，继续努力！</h2>
+        <h2 class="language" data-lan="archives" data-count="2">非常好！目前共计2篇文章，继续努力！</h2>
       
     </div>
     
@@ -249,6 +249,19 @@
           <h2 class="tag-year">2022</h2>
         </div>    
         
+      
+      <a href="https://ro0ki4.github.io/post/solr/">
+        <div class="motion-warpper tag-archive-node">
+          <div class="tag-node">
+            <h1>
+              04-12
+              <small>solr</small>
+            </h1>
+          </div>  
+      </div>
+      </a>
+    
+      
       
       <a href="https://ro0ki4.github.io/post/first-test/">
         <div class="motion-warpper tag-archive-node">
@@ -542,6 +555,193 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://ro0ki4.github.io/post/solr/"" data-c="
+          &lt;h1 id=&#34;solr&#34;&gt;solr&lt;/h1&gt;
+&lt;h2 id=&#34;查询&#34;&gt;查询&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;q
+&lt;ul&gt;
+&lt;li&gt;查询字符串&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;fq
+&lt;ul&gt;
+&lt;li&gt;filterquery，与q作用相同，fq会将搜索结果存入缓存，一般用来作为筛选项，比如年龄、性别、学历等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;fl
+&lt;ul&gt;
+&lt;li&gt;只返回指定的字段结果，可以设置多个&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;sort
+&lt;ul&gt;
+&lt;li&gt;排序规则，solr中默认有score对象，可以通过score等多个维度进行排序&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;df
+&lt;ul&gt;
+&lt;li&gt;默认字段，一般在schema中指定&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;debugquey
+&lt;ul&gt;
+&lt;li&gt;是否开启debug模式，可以查看具体score计算得分信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;wt
+&lt;ul&gt;
+&lt;li&gt;指定查询返回结果的格式，默认为xml格式&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;timeallowed
+&lt;ul&gt;
+&lt;li&gt;单次查询最大时间&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;slot
+&lt;ul&gt;
+&lt;li&gt;边际距离，多个item的最大距离&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;facet
+&lt;ul&gt;
+&lt;li&gt;分组使用&lt;/li&gt;
+&lt;li&gt;按照范围分组&lt;/li&gt;
+&lt;li&gt;使用多个维度分组&lt;/li&gt;
+&lt;li&gt;按照表达式结果分组&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;四种查询&#34;&gt;四种查询&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;termquery&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;query=fieldA:java&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;phrasequery&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;query=filedA:&amp;quot;java&amp;quot;&lt;/li&gt;
+&lt;li&gt;是用了position&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;boolquery&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;{!parser}{xxxxx}or|and{xxxxxx}&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;AND OR&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;四种逻辑操作&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;召回&lt;/th&gt;
+&lt;th&gt;得分&lt;/th&gt;
+&lt;th&gt;缓存&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;must&lt;/td&gt;
+&lt;td&gt;✔️&lt;/td&gt;
+&lt;td&gt;✔️&lt;/td&gt;
+&lt;td&gt;✖️&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;must not&lt;/td&gt;
+&lt;td&gt;✔️&lt;/td&gt;
+&lt;td&gt;✖️&lt;/td&gt;
+&lt;td&gt;✔️&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;should&lt;/td&gt;
+&lt;td&gt;✖️&lt;/td&gt;
+&lt;td&gt;✔️&lt;/td&gt;
+&lt;td&gt;✖️&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;filter&lt;/td&gt;
+&lt;td&gt;✔️&lt;/td&gt;
+&lt;td&gt;✖️&lt;/td&gt;
+&lt;td&gt;✔️&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;rangequery&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;q=*😗&amp;amp;fq=field_a:[1,100]&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;spanquery&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;跨度查询&lt;/li&gt;
+&lt;li&gt;使用了offset&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;相似项甄别&#34;&gt;相似项甄别&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;facet和group
+&lt;ul&gt;
+&lt;li&gt;区别
+&lt;ul&gt;
+&lt;li&gt;facet类似mysql中group只能够统计按照某些维度分组后的一些总数指标&lt;/li&gt;
+&lt;li&gt;group类似row number 可以获取分组后的每个维度下数据的细项&lt;/li&gt;
+&lt;li&gt;facet可以使用表达式结果分组&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;类似
+&lt;ul&gt;
+&lt;li&gt;都能够使用某些维度来对索引数据分组&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;docValues和stored=true
+&lt;ul&gt;
+&lt;li&gt;区别
+&lt;ul&gt;
+&lt;li&gt;docValues按照列来存储，stored按照行存储。存储时将一条sui ying&lt;/li&gt;
+&lt;li&gt;docValues字段可以分词，stored无法分词，只能存储原词&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;类似
+&lt;ul&gt;
+&lt;li&gt;都是将索引项的详细信息在查询时能够展示，加载到内存中。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;solr-大概流程&#34;&gt;Solr 大概流程&lt;/h2&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://gitee.com/ro0ki4/ro0ki4-pic-repo/raw/master/picc/solr%E6%B5%81%E7%A8%8B.png&#34; alt=&#34;solr流程&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;solr自定义解析器&#34;&gt;solr自定义解析器&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;SearchHandler:handleRequestBody -&amp;gt; searchComponent:prepare -&amp;gt; Qparser:getParser -&amp;gt; QparsePlugin:createParse -&amp;gt; CustomerQParser实例
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+">solr</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://ro0ki4.github.io/post/first-test/"" data-c="
