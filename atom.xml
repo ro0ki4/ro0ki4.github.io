@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ro0ki4.github.io/</id>
     <title>ro0ki4</title>
-    <updated>2022-04-12T07:09:14.367Z</updated>
+    <updated>2022-04-12T07:20:19.364Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ro0ki4.github.io/"/>
     <link rel="self" href="https://ro0ki4.github.io/atom.xml"/>
@@ -196,6 +196,9 @@
 <li>
 <pre><code class="language-java">SearchHandler:handleRequestBody -&gt; searchComponent:prepare -&gt; Qparser:getParser -&gt; QparsePlugin:createParse -&gt; CustomerQParser实例
 </code></pre>
+</li>
+<li>
+<p>test<img src="https://gitee.com/ro0ki4/ro0ki4-pic-repo/raw/master/picc/image-20220412151822519.png" alt="image-20220412151822519" loading="lazy"></p>
 </li>
 </ul>
 ]]></content>
